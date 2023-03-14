@@ -8,7 +8,7 @@ public class AccountController {
     System.debug('getCategorizedMap: ' + getCategorizedMap (oppList));
     return getCategorizedMap (oppList);
     }
-    
+    //push class to github
     @AuraEnabled (Cacheable=true)
     public Static Map<String, Double> getOppSumWithChildAccounts(String accId, Integer hierarchyLevel, Date fromDate, Date toDate){
         String query = 'SELECT Amount, isClosed, isWon, AccountId FROM Opportunity WHERE (AccountId = :accId';
