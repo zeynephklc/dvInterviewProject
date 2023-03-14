@@ -1,0 +1,74 @@
+<template>
+    <lightning-card>
+
+      <!--Header-->
+      
+      <article class="slds-card">
+        <div class="slds-card__header slds-p-top_xxx-small slds-grid" >
+          <header class="slds-media slds-grid slds-media_center slds-has-flexi-truncate">
+            <lightning-icon icon-name="standard:account" alternative-text="Account" title="Account"></lightning-icon>
+            <div class="slds-media__body">
+              <h2 class="slds-card__header-title slds-p-around_small" >
+                <a href="#" class="slds-card__header-link slds-truncate" title="Total Opportunity Amount by Stage">
+                  <span> Total Opportunity Amount by Stage</span>
+                </a>
+              </h2>
+            </div>
+          </header>
+        </div>
+      </article>
+
+      <!--Date Inputs-->
+
+      <div class="slds-p-around_small">
+        <h2 style="font-weight: bold; color:gray">Close Date</h2>
+        <lightning-input type="date" name="dateFrom" label="From" required="" onchange={handleFromDateChange}></lightning-input>
+        <lightning-input type="date" name="dateTo" label="To" required="" onchange={handleToDateChange}></lightning-input>    
+      </div><br>
+
+      <!--Conditional rendering for Section 1-->
+
+      <template if:true={fromDate}>
+        <template if:true={toDate}>
+          <p class="section-title slds-p-around_small">Total Opportunity Amount for the Account:</p>
+          <div class="slds-p-around_small slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_small">
+            <lightning-layout multiple-rows="true" class="opplist_container">
+              <template for:each={categorizedMap} for:item="map">
+                <lightning-layout-item key={map.key} size="4" class="slds-var-p-around_x-small" padding="around-small">
+                  <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                    <p class="stage-name" title="Stage Name">{map.key}</p>
+                    <p class="amount-sum" title="Amount Sum">${map.value}</p>
+                  </div>
+                </lightning-layout-item>
+              </template>
+            </lightning-layout>
+          </div>
+        </template>
+      </template>
+
+      <!--Hierarchy Level Slider-->
+
+      <div class="slds-p-around_small">
+        <h2 style="font-weight: bold; color:gray">Hierarchy Level: {hierarchyLevel}</h2>
+        <lightning-slider  step="1" max="10" size="x-large" value="0" onchange={handleHierarchyLevelChange}></lightning-slider><br>
+      </div>
+
+      <!--Conditional rendering for Section 2-->   
+
+      <template if:true={hierarchyLevel} >
+        <p class="section-title slds-p-around_small">Total Opportunity Amount for the Account and Child Accounts:</p>
+        <div class="slds-p-around_small slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_small">
+          <lightning-layout multiple-rows="true" class="opplist_container">
+            <template for:each={categorizedMapWithChildAcc} for:item="map">
+              <lightning-layout-item key={map.key} size="4" class="slds-var-p-around_x-small" padding="around-small">
+                <div class="custom-box slds-box slds-p-around_medium slds-text-align_center">
+                  <p class="stage-name" title="Stage Name">{map.key}</p>
+                  <p class="amount-sum" title="Amount Sum">${map.value}</p>
+                </div>
+              </lightning-layout-item>
+            </template>  
+          </lightning-layout>
+        </div>
+      </template>
+    </lightning-card>
+</template>
